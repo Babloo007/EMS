@@ -11,8 +11,7 @@ const EmployeeComponent = () => {
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    getAllDepartments()
-      .then((response) => {
+    getAllDepartments().then((response) => {
         setDepartments(response.data);
       })
       .catch((error) => {
@@ -20,7 +19,7 @@ const EmployeeComponent = () => {
       });
   }, []);
 
-  const { id } = useParams();
+  const {id} = useParams();
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -104,7 +103,7 @@ const EmployeeComponent = () => {
     if (departmentId) {
       errorsCopy.department = "";
     } else {
-      errorsCopy.department = "Select Department";
+      errorsCopy.department = "Please Select Department";
       valid = false;
     }
 
@@ -149,7 +148,7 @@ const EmployeeComponent = () => {
             name="lastName"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            className={`border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500 w-full ${errors.firstName ? "border-rose-600" : "border-gray-300"}`}
+            className={`border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500 w-full ${errors.lastName ? "border-rose-600" : "border-gray-300"}`}
             required
           ></input>
           {errors.lastName && (
@@ -165,7 +164,7 @@ const EmployeeComponent = () => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className={`border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500 w-full ${errors.firstName ? "border-rose-600" : "border-gray-300"}`}
+            className={`border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500 w-full ${errors.email ? "border-rose-600" : "border-gray-300"}`}
             required
           ></input>
           {errors.email && (
@@ -176,14 +175,13 @@ const EmployeeComponent = () => {
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">Select Department :</label>
           <select
-            className={`border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500 w-full ${errors.firstName ? "border-rose-600" : "border-gray-300"}`}
+            className={`border rounded-md py-2 px-3 focus:outline-none focus:ring focus:border-blue-500 w-full ${errors.department ? "border-rose-600" : "border-gray-300"}`}
             value={departmentId}
             onChange={(e) => setDepartmentId(e.target.value)}
           >
             <option value="Select Department">Select Department</option>
             {departments.map((department) => (
               <option key={department.id} value={department.id}>
-                {" "}
                 {department.departmentName}
               </option>
             ))}
