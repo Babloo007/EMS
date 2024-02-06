@@ -21,14 +21,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
     private DepartmentRepository departmentRepository;
 
-    @Override
+    @Override 
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
 
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
+
         Department department = departmentRepository.findById(employeeDto.getDepartmentId()).orElseThrow(
                 () -> new ResourceNotFoundException("Department with given id :"+ employeeDto.getDepartmentId() +" does not exist"));
+
+        employee.setDepartment(department);
+
         Employee savedEmployee = employeeRepository.save(employee);
-        savedEmployee.setDepartment();
+
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
     }
 
@@ -58,6 +62,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setFirstName(updatedEmployee.getFirstName());
         employee.setLastName(updatedEmployee.getLastName());
         employee.setEmail(updatedEmployee.getEmail());
+
+        Department department = departmentRepository.findById(updatedEmployee.getDepartmentId()).orElseThrow(
+                () -> new ResourceNotFoundException("Department with given id :"+ updatedEmployee.getDepartmentId() +" does not exist"));
+        employee.setDepartment(department);
 
         Employee updatedEmployeeObj = employeeRepository.save(employee);
 
